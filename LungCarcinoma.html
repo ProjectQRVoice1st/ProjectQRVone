@@ -29,9 +29,8 @@
         <h1 class="text-3xl font-bold text-gray-800 mb-4">Lung Carcinoma</h1>
         <p class="text-gray-600 mb-6">Listen to the information about this specimen.</p>
 
-        <!-- Audio Player -->
+        <!-- Audio Player - Controls are visible but initial play is handled by button -->
         <audio id="specimenAudio" controls class="w-full rounded-lg shadow-md mb-6">
-            <!-- Audio source updated with the raw GitHubusercontent link -->
             <source src="https://raw.githubusercontent.com/ProjectQRVoice1st/ProjectQRVone/main/Lung_Carcinoma.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
@@ -53,17 +52,9 @@
             const audio = document.getElementById('specimenAudio');
             const playButton = document.getElementById('playButton');
 
-            // Attempt to play audio automatically
-            // Note: Many mobile browsers prevent automatic playback without user interaction.
-            // The play button serves as a fallback.
-            audio.play().then(() => {
-                console.log('Audio played automatically.');
-                playButton.style.display = 'none'; // Hide button if auto-play works
-            }).catch(error => {
-                console.warn('Auto-play prevented:', error);
-                // If auto-play fails, show the play button
-                playButton.style.display = 'flex'; // Ensure button is flex if shown
-            });
+            // On iOS, autoplay is strictly prevented.
+            // We ensure the play button is always visible initially.
+            playButton.style.display = 'flex'; // Ensure button is visible upon load
 
             // Event listener for the play button
             playButton.addEventListener('click', () => {
@@ -72,7 +63,8 @@
                     playButton.style.display = 'none'; // Hide button once played
                 }).catch(error => {
                     console.error('Error playing audio:', error);
-                    // Optionally, display an error message to the user
+                    // Optionally, display an error message to the user if playback fails
+                    // (e.g., "Could not play audio. Please check your device settings.")
                 });
             });
         });
